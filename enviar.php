@@ -11,19 +11,19 @@ use PHPMailer\PHPMailer\Exception;
 
 $to = "aethersad@gmail.com"; //destinatário
 
-$assunto = "Email enviado para loja."; //
+$assunto = utf8_decode("EMAILS ENVIADOS NO FORMULÁRIO DE CONTATO"); //
 
 $nome = $_POST['nome'];
 
-$mensagem = $_POST['mensagem'] . " - " . $nome;
-
 $email = $_POST['email']; //remetente
+
+$mensagem = $_POST['mensagem'];
 
 
 //$status = mail($to, $assunto, $mensagem);
 
 //if ($status == false) {
-    //print "Mensagem não foi enviada com Sucesso!";
+//print "Mensagem não foi enviada com Sucesso!";
 //}
 
 //4pIddyFDGw5G7
@@ -41,9 +41,9 @@ try {
     $mail->Port = 587;                                    // TCP port to connect to
 
     //Recipients
-    $mail->setFrom($email, $nome);
-    $mail->addAddress('testandoemail3274@gmail.com', 'Recebedor do email');     // Add a recipient            // Name is optional
-    //$mail->addReplyTo('info@example.com', 'Information');
+    $mail->setFrom($email, $email . ' - ' . $nome);
+    $mail->addAddress('testandoemail3274@gmail.com');     // Add a recipient            // Name is optional
+    $mail->addReplyTo($email, 'Information');
     //$mail->addCC('cc@example.com');
     //$mail->addBCC('bcc@example.com');
 
@@ -54,8 +54,8 @@ try {
     //Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = $assunto;
-    $mail->Body    = '<strong>Assunto:' . $assunto . '</strong><br/><br/><br/>' . $mensagem;
-    $mail->AltBody = 'Assunto: ' . $assunto . '-'. $mensagem;
+    $mail->Body    = '<strong>Assunto:' . $assunto . '</strong><br/>' . $mensagem . '<br/> <strong>Nome: </strong>' . $nome . '<br/> <strong>E-mail: </strong> ' . $email;
+    $mail->AltBody = 'Assunto: ' . $assunto . '-' . $mensagem;
 
     $mail->send();
     echo 'Message has been sent';
